@@ -1,0 +1,283 @@
+@import "tailwindcss";
+
+@theme {
+  --color-page-bg: #ffffff;
+  --color-cyber-slate: #f8fafc;
+  --color-cyber-gray: #f1f5f9;
+  --color-neon-cyan: #00b4d8;
+  --color-neon-cyan-text: #007799;
+  --color-neon-purple: #7209b7;
+  --color-neon-emerald: #10b981;
+  --color-neon-emerald-text: #047857;
+  --color-neon-red: #ef4444;
+  --color-neon-pink: #f72585;
+  --color-neon-pink-text: #d91b6c;
+  
+  --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    background-color: var(--color-page-bg);
+    color: #0f172a;
+    overflow-x: hidden;
+  }
+
+  body {
+    background-color: var(--color-page-bg);
+    font-family: 'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+
+  /* Custom Light Glassmorphism Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--color-neon-cyan), var(--color-neon-purple));
+    border-radius: 9999px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, var(--color-neon-emerald), var(--color-neon-cyan));
+  }
+}
+
+@layer utilities {
+  /* Glowing Effects optimized for white theme */
+  .glow-cyan {
+    box-shadow: 0 0 20px rgba(0, 180, 216, 0.12), 0 0 40px rgba(0, 180, 216, 0.04);
+  }
+
+  .glow-purple {
+    box-shadow: 0 0 20px rgba(114, 9, 183, 0.12), 0 0 40px rgba(114, 9, 183, 0.04);
+  }
+
+  .glow-emerald {
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.12), 0 0 40px rgba(16, 185, 129, 0.04);
+  }
+
+  .text-glow-cyan {
+    text-shadow: 0 0 10px rgba(0, 180, 216, 0.3);
+  }
+
+  .text-glow-purple {
+    text-shadow: 0 0 10px rgba(114, 9, 183, 0.3);
+  }
+
+  .text-glow-emerald {
+    text-shadow: 0 0 10px rgba(16, 185, 129, 0.3);
+  }
+
+  .border-glow-cyan {
+    border-color: rgba(0, 180, 216, 0.3);
+    box-shadow: 0 0 12px rgba(0, 180, 216, 0.08);
+  }
+
+  .border-glow-purple {
+    border-color: rgba(114, 9, 183, 0.3);
+    box-shadow: 0 0 12px rgba(114, 9, 183, 0.08);
+  }
+
+  .border-glow-emerald {
+    border-color: rgba(16, 185, 129, 0.3);
+    box-shadow: 0 0 12px rgba(16, 185, 129, 0.08);
+  }
+
+  /* Retro Grid Background for light theme */
+  .grid-bg {
+    background-image: 
+      linear-gradient(rgba(0, 180, 216, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 180, 216, 0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+    background-position: center;
+  }
+
+  /* Scanline overlay */
+  .scanlines {
+    background: linear-gradient(
+      rgba(255, 255, 255, 0) 50%, 
+      rgba(15, 23, 42, 0.03) 50%
+    );
+    background-size: 100% 4px;
+    z-index: 10;
+  }
+
+  /* Cyberpunk Hazard Stripes */
+  .hazard-stripes {
+    background: repeating-linear-gradient(
+      -45deg,
+      rgba(0, 180, 216, 0.08),
+      rgba(0, 180, 216, 0.08) 8px,
+      transparent 8px,
+      transparent 16px
+    );
+  }
+
+  .hazard-stripes-pink {
+    background: repeating-linear-gradient(
+      -45deg,
+      rgba(247, 37, 133, 0.08),
+      rgba(247, 37, 133, 0.08) 8px,
+      transparent 8px,
+      transparent 16px
+    );
+  }
+}
+
+/* Light Glassmorphism Preset */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(15, 23, 42, 0.06);
+}
+
+.glass-panel-hover:hover {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(0, 180, 216, 0.35);
+  box-shadow: 0 10px 30px rgba(0, 180, 216, 0.08);
+  transform: translateY(-2px);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Keyframes for Grid Crawling */
+@keyframes grid-crawl {
+  0% {
+    background-position-y: 0px;
+  }
+  100% {
+    background-position-y: 40px;
+  }
+}
+
+.grid-floor-3d {
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  left: -50%;
+  top: -20%;
+  background-image: 
+    linear-gradient(rgba(0, 180, 216, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 180, 216, 0.06) 1px, transparent 1px);
+  background-size: 40px 40px;
+  transform: perspective(250px) rotateX(65deg);
+  transform-origin: center top;
+  animation: grid-crawl 3s linear infinite;
+  mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%);
+  -webkit-mask-image: linear-gradient(to top, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%);
+}
+
+/* Radar scanning keyframes */
+@keyframes radar-scan {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.radar-sweep {
+  width: 100%;
+  height: 100%;
+  background: conic-gradient(from 0deg, rgba(16, 185, 129, 0.15) 0deg, transparent 90deg, transparent 360deg);
+  border-radius: 50%;
+  animation: radar-scan 4s linear infinite;
+}
+
+/* Pulse animation for active widgets */
+@keyframes tech-pulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+.tech-dot-pulse {
+  animation: tech-pulse 2s infinite;
+}
+
+/* CRT Screen flicker effect inside Terminal */
+@keyframes crt-flicker {
+  0% { opacity: 0.985; }
+  50% { opacity: 1; }
+  100% { opacity: 0.99; }
+}
+
+.crt-flicker-effect {
+  animation: crt-flicker 0.15s infinite;
+}
+
+/* Corner bracket marks */
+.corner-mark::before, .corner-mark::after {
+  content: "";
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-color: rgba(15, 23, 42, 0.15);
+  border-style: solid;
+}
+
+.corner-mark::before {
+  top: 8px;
+  left: 8px;
+  border-width: 1px 0 0 1px;
+}
+
+.corner-mark::after {
+  bottom: 8px;
+  right: 8px;
+  border-width: 0 1px 1px 0;
+}
+
+.corner-mark-cyan::before { border-color: var(--color-neon-cyan); }
+.corner-mark-cyan::after { border-color: var(--color-neon-cyan); }
+.corner-mark-purple::before { border-color: var(--color-neon-purple); }
+.corner-mark-purple::after { border-color: var(--color-neon-purple); }
+.corner-mark-emerald::before { border-color: var(--color-neon-emerald); }
+.corner-mark-emerald::after { border-color: var(--color-neon-emerald); }
+
+/* Blinking terminal cursor */
+@keyframes cursor-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.terminal-cursor {
+  display: inline-block;
+  width: 8px;
+  height: 18px;
+  background-color: currentColor;
+  margin-left: 4px;
+  animation: cursor-blink 1s step-end infinite;
+  vertical-align: middle;
+}
+
+/* CRT Screen lines overlay */
+.crt-lines {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    rgba(15, 23, 42, 0) 50%, 
+    rgba(0, 0, 0, 0.15) 50%
+  );
+  background-size: 100% 4px;
+  z-index: 5;
+  pointer-events: none;
+}
+
+/* Glow orb backdrop */
+.glow-orb {
+  position: fixed;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 180, 216, 0.08) 0%, rgba(114, 9, 183, 0.04) 50%, transparent 100%);
+  pointer-events: none;
+  z-index: 1;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s ease-out;
+}
+
