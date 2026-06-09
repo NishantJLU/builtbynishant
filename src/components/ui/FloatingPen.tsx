@@ -507,7 +507,6 @@ export default function FloatingPen() {
       window.removeEventListener("resize", resizeCanvas);
       unsubscribeProgress();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mounted, smoothProgress]);
 
   if (!mounted) return null;
