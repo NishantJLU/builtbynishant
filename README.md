@@ -7,7 +7,6 @@
 
 A high-performance, immersive portfolio built at the intersection of **AI**, **real-time systems**, and the **web**. This project features a unique "cyber-systems" aesthetic with interactive telemetry widgets, a custom terminal OS, and fluid animations.
 
-🌐 **Live at:** [nishant.systems](https://builtbynishant.dev)
 
 ---
 
