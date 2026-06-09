@@ -117,17 +117,6 @@ export default function Navbar() {
           })}
         </div>
 
-        {/* Telemetry Status Panel */}
-        <div className="hidden lg:flex items-center gap-3 text-[10px] font-mono text-slate-400 border-l border-slate-200/60 pl-4 h-5">
-          <div className="flex items-center gap-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-neon-cyan animate-pulse" />
-            <span>SYNC: ACTIVE</span>
-          </div>
-          <div className="flex items-center gap-1">
-            <span className="w-1.5 h-1.5 rounded-full bg-neon-purple animate-pulse" />
-            <span>RTT: 12ms</span>
-          </div>
-        </div>
 
         {/* CTA Button */}
         <a
