@@ -17,10 +17,6 @@ export default function ScrollSectionWrapper({ children }: { children: React.Rea
   const rotateX = useTransform(scrollYProgress, [0, 0.22, 0.78, 1], [8, 0, 0, -8]);
   const y = useTransform(scrollYProgress, [0, 0.22, 0.78, 1], [60, 0, 0, -60]);
   
-  // High-end cinematic camera-lens blur focus transition linked to viewport entry
-  const blurVal = useTransform(scrollYProgress, [0, 0.18, 0.82, 1], [6, 0, 0, 6]);
-  const filter = useTransform(blurVal, (v) => `blur(${v}px)`);
-
   return (
     <motion.div
       ref={containerRef}
@@ -29,7 +25,6 @@ export default function ScrollSectionWrapper({ children }: { children: React.Rea
         scale,
         rotateX,
         y,
-        filter,
         transformStyle: "preserve-3d",
       }}
       className="w-full origin-center"

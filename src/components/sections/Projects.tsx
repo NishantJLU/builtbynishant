@@ -21,29 +21,19 @@ const Github = (props: React.SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
-// Looping Oscilloscope SVG trace
+// Looping Oscilloscope SVG trace (optimized to use hardware-accelerated CSS translations instead of path morphing)
 function DataWave({ color = "#00b4d8" }: { color?: string }) {
   return (
-    <svg viewBox="0 0 100 20" className="w-16 h-5 opacity-60 select-none pointer-events-none">
-      <motion.path
-        d="M 0 10 Q 12.5 2, 25 10 T 50 10 T 75 10 T 100 10"
-        fill="none"
-        stroke={color}
-        strokeWidth="1.5"
-        animate={{
-          d: [
-            "M 0 10 Q 12.5 2, 25 10 T 50 10 T 75 10 T 100 10",
-            "M 0 10 Q 12.5 18, 25 10 T 50 10 T 75 10 T 100 10",
-            "M 0 10 Q 12.5 2, 25 10 T 50 10 T 75 10 T 100 10",
-          ]
-        }}
-        transition={{
-          duration: 3,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
-      />
-    </svg>
+    <div className="w-16 h-5 overflow-hidden opacity-60 select-none pointer-events-none relative">
+      <svg viewBox="0 0 200 20" className="w-[200%] h-full absolute left-0 top-0 animate-wave-slide">
+        <path
+          d="M 0 10 Q 12.5 2, 25 10 T 50 10 T 75 10 T 100 10 T 125 10 T 150 10 T 175 10 T 200 10"
+          fill="none"
+          stroke={color}
+          strokeWidth="1.5"
+        />
+      </svg>
+    </div>
   );
 }
 

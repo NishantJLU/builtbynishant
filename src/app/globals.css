@@ -281,3 +281,13 @@
   transition: transform 0.1s ease-out;
 }
 
+/* Hardware-accelerated oscilloscope wave animation */
+@keyframes wave-slide {
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
+}
+
+.animate-wave-slide {
+  animation: wave-slide 3s linear infinite;
+}
+
