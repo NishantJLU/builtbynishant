@@ -104,7 +104,6 @@ export default function Hero() {
   const [isDeleting, setIsDeleting] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [particles, setParticles] = useState<Particle[]>([]);
-  const [rawCoords, setRawCoords] = useState({ x: 0, y: 0 });
 
   // Generate particles on client mount with check for screen size to optimize performance
   useEffect(() => {
@@ -179,17 +178,11 @@ export default function Hero() {
     
     x.set(mouseX / width);
     y.set(mouseY / height);
-
-    setRawCoords({
-      x: Math.round(e.clientX - rect.left),
-      y: Math.round(e.clientY - rect.top)
-    });
   };
 
   const handleMouseLeave = () => {
     x.set(0);
     y.set(0);
-    setRawCoords({ x: 0, y: 0 });
   };
 
   const scrollToSection = (id: string) => {
@@ -227,58 +220,6 @@ export default function Hero() {
       id="home" 
       className="min-h-screen relative flex items-center justify-center overflow-hidden px-4 pt-20 md:pt-0"
     >
-      {/* Left Floating Telemetry Sidebar */}
-      <div className="absolute left-8 top-[35%] hidden lg:flex flex-col gap-4 font-mono text-[10px] text-slate-400 border-l border-slate-200/60 pl-4 select-none pointer-events-none z-20">
-        <div>
-          <span className="text-slate-400 block tracking-wider font-bold">{"// SYS_NODE"}</span>
-          <span className="text-slate-800 font-semibold font-mono">NISHANT_SINGH_2.0</span>
-        </div>
-        <div>
-          <span className="text-slate-400 block tracking-wider font-bold">{"// CURSOR_TELEMETRY"}</span>
-          <span className="text-slate-700 block">X: {rawCoords.x}px</span>
-          <span className="text-slate-700 block">Y: {rawCoords.y}px</span>
-        </div>
-        <div>
-          <span className="text-slate-400 block tracking-wider font-bold">{"// VECTOR_ANGLE"}</span>
-          <span className="text-slate-700">
-            {rawCoords.x || rawCoords.y 
-              ? `${Math.round(Math.atan2(rawCoords.y - 200, rawCoords.x - 400) * (180 / Math.PI))}°` 
-              : "0°"}
-          </span>
-        </div>
-        <div className="w-20 bg-slate-100 h-1 rounded overflow-hidden mt-1">
-          <motion.div 
-            className="bg-neon-cyan h-full" 
-            animate={{ width: `${Math.min(100, Math.max(0, (rawCoords.x / 1000) * 100))}%` }}
-            transition={{ ease: "easeOut", duration: 0.1 }}
-          />
-        </div>
-      </div>
-
-      {/* Right Floating Diagnostic Sidebar */}
-      <div className="absolute right-8 top-[35%] hidden lg:flex flex-col gap-4 font-mono text-[10px] text-slate-400 border-r border-slate-200/60 pr-4 text-right select-none pointer-events-none z-20">
-        <div>
-          <span className="text-slate-400 block tracking-wider font-bold">{"// AI_SYNC_STATE"}</span>
-          <span className="text-neon-emerald font-semibold animate-pulse">OPTIMIZED (99.4%)</span>
-        </div>
-        <div>
-          <span className="text-slate-400 block tracking-wider font-bold">{"// THREAD_POOL"}</span>
-          <span className="text-slate-700">16 ACTIVE / 0 IDLE</span>
-        </div>
-        <div>
-          <span className="text-slate-400 block tracking-wider font-bold">{"// CORE_TEMP"}</span>
-          <span className="text-slate-700">38°C (STABLE)</span>
-        </div>
-        <div className="flex justify-end gap-0.5 mt-1">
-          {[...Array(5)].map((_, i) => (
-            <span 
-              key={i} 
-              className={`w-1 h-3 rounded-sm ${i < 4 ? "bg-neon-purple/70" : "bg-slate-200"}`} 
-            />
-          ))}
-        </div>
-      </div>
-
       {/* Background Interactive Particles */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         {mounted && particles.map((p) => (
