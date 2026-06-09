@@ -142,52 +142,21 @@ export default function FloatingPen() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [mounted, setMounted] = useState(false);
-  const [blurAmount, setBlurAmount] = useState(0);
-
   const { scrollYProgress } = useScroll();
-  
-  // Spring to smooth out scroll and trace path fluidly
   const smoothProgress = useSpring(scrollYProgress, {
     stiffness: 45,
     damping: 18,
     restDelta: 0.0001
   });
-
   useEffect(() => {
     let active = true;
     const mountRafId = requestAnimationFrame(() => {
       if (active) setMounted(true);
     });
 
-    // Track scroll velocity to dynamically apply a motion blur filter
-    let lastScrollY = window.scrollY;
-    let lastTime = performance.now();
-    let velocity = 0;
-    let velRafId = 0;
-
-    const checkVelocity = () => {
-      const currentScrollY = window.scrollY;
-      const currentTime = performance.now();
-      const deltaY = Math.abs(currentScrollY - lastScrollY);
-      const deltaTime = Math.max(1, currentTime - lastTime);
-      
-      const instantVelocity = deltaY / deltaTime;
-      velocity = velocity * 0.85 + instantVelocity * 0.15;
-      
-      const blur = Math.min(8, velocity * 1.5);
-      setBlurAmount(blur);
-
-      lastScrollY = currentScrollY;
-      lastTime = currentTime;
-      velRafId = requestAnimationFrame(checkVelocity);
-    };
-
-    const initialVelRafId = requestAnimationFrame(checkVelocity);
     return () => {
       active = false;
       cancelAnimationFrame(mountRafId);
-      cancelAnimationFrame(initialVelRafId);
-      if (velRafId) cancelAnimationFrame(velRafId);
     };
   }, []);
 
@@ -198,7 +167,16 @@ export default function FloatingPen() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    let animId: number;
+    let renderRequested = false;
+    const requestRender = () => {
+      if (!renderRequested) {
+        renderRequested = true;
+        requestAnimationFrame(() => {
+          renderRequested = false;
+          render();
+        });
+      }
+    };
 
     const resizeCanvas = () => {
       const width = window.innerWidth;
@@ -208,6 +186,7 @@ export default function FloatingPen() {
       canvas.style.width = `${width}px`;
       canvas.style.height = `${height}px`;
       ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+      requestRender();
     };
 
     resizeCanvas();
@@ -262,7 +241,6 @@ export default function FloatingPen() {
 
       // Skip rendering on small mobile viewports for performance
       if (width < 768) {
-        animId = requestAnimationFrame(render);
         return;
       }
 
@@ -515,18 +493,22 @@ export default function FloatingPen() {
       ctx.shadowBlur = 0;
       ctx.shadowOffsetX = 0;
       ctx.shadowOffsetY = 0;
-
-      animId = requestAnimationFrame(render);
     };
 
-    render();
+    // Initial render call
+    requestRender();
+
+    // Re-render when scroll progress changes
+    const unsubscribeProgress = smoothProgress.on("change", () => {
+      requestRender();
+    });
 
     return () => {
       window.removeEventListener("resize", resizeCanvas);
-      cancelAnimationFrame(animId);
+      unsubscribeProgress();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mounted]);
+  }, [mounted, smoothProgress]);
 
   if (!mounted) return null;
 
@@ -534,11 +516,6 @@ export default function FloatingPen() {
     <div
       ref={containerRef}
       className="fixed inset-0 pointer-events-none z-0 overflow-hidden"
-      style={{
-        filter: blurAmount > 0.5 ? `blur(${blurAmount}px)` : "none",
-        willChange: "filter",
-        transition: "filter 0.1s linear"
-      }}
     >
       <canvas ref={canvasRef} className="block w-full h-full opacity-65" />
     </div>

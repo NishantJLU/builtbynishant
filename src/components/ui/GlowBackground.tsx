@@ -11,9 +11,9 @@ interface Node {
 }
 
 export default function GlowBackground() {
-  const [position, setPosition] = useState({ x: -1000, y: -1000 });
   const [mounted, setMounted] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const orbRef = useRef<HTMLDivElement>(null);
   const mouseRef = useRef({ x: -1000, y: -1000 });
 
   useEffect(() => {
@@ -23,8 +23,10 @@ export default function GlowBackground() {
     });
 
     const handleMouseMove = (e: MouseEvent) => {
-      setPosition({ x: e.clientX, y: e.clientY });
       mouseRef.current = { x: e.clientX, y: e.clientY };
+      if (orbRef.current) {
+        orbRef.current.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-50%, -50%)`;
+      }
     };
 
     window.addEventListener("mousemove", handleMouseMove);
@@ -115,25 +117,25 @@ export default function GlowBackground() {
         ctx.fill();
       });
 
-      // Draw connecting lines between nodes
+      // Draw connecting lines between nodes (batched for performance)
+      ctx.beginPath();
+      ctx.strokeStyle = "rgba(114, 9, 183, 0.06)";
       ctx.lineWidth = 0.6;
+      const maxDistanceSq = maxDistance * maxDistance;
+
       for (let i = 0; i < nodes.length; i++) {
         for (let j = i + 1; j < nodes.length; j++) {
           const dx = nodes[i].x - nodes[j].x;
           const dy = nodes[i].y - nodes[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
+          const distSq = dx * dx + dy * dy;
 
-          if (dist < maxDistance) {
-            // Line opacity scales with proximity
-            const alpha = (1 - dist / maxDistance) * 0.12;
-            ctx.strokeStyle = `rgba(114, 9, 183, ${alpha})`;
-            ctx.beginPath();
+          if (distSq < maxDistanceSq) {
             ctx.moveTo(nodes[i].x, nodes[i].y);
             ctx.lineTo(nodes[j].x, nodes[j].y);
-            ctx.stroke();
           }
         }
       }
+      ctx.stroke();
 
       animId = requestAnimationFrame(draw);
     };
@@ -152,9 +154,10 @@ export default function GlowBackground() {
     <>
       {/* Dynamic Cursor Orb Follower */}
       <div
+        ref={orbRef}
         className="glow-orb hidden md:block"
         style={{
-          transform: `translate3d(${position.x}px, ${position.y}px, 0) translate(-50%, -50%)`,
+          transform: "translate3d(-1000px, -1000px, 0) translate(-50%, -50%)",
           position: "fixed",
           top: 0,
           left: 0,
@@ -168,20 +171,6 @@ export default function GlowBackground() {
         className="fixed inset-0 z-0 pointer-events-none opacity-80"
       />
 
-      {/* SVG Analog Noise Texture Overlay */}
-      <div className="fixed inset-0 z-10 pointer-events-none opacity-[0.015] mix-blend-overlay">
-        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-          <filter id="noiseFilter">
-            <feTurbulence 
-              type="fractalNoise" 
-              baseFrequency="0.8" 
-              numOctaves="3" 
-              stitchTiles="stitch" 
-            />
-          </filter>
-          <rect width="100%" height="100%" filter="url(#noiseFilter)" />
-        </svg>
-      </div>
     </>
   );
 }
