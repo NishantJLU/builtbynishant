@@ -80,7 +80,11 @@ builtbynishant/
 
 - **CSP Headers:** Robust Content Security Policy configured in `next.config.ts`.
 - **Type Safety:** 100% TypeScript coverage for reliable development.
-- **Performance:** Optimized for Core Web Vitals with efficient animation loops and minimal re-renders.
+- **Performance Optimization:** 
+  - **On-Demand Canvas Rendering:** Signature tracer halts its `requestAnimationFrame` loop when the page is idle, reducing background CPU/GPU rendering overhead to 0%.
+  - **Zero-Jank Scrolling:** Removed fullscreen real-time SVG turbulence filters and dynamic CSS blur filters to ensure stable 60fps+ scrolling.
+  - **Batched Canvas Drawing:** Background network vertices calculations avoid `Math.sqrt` and batch connection segments into a single `.stroke()` call to minimize draw calls.
+  - **Virtual DOM Bypass:** The interactive spotlight orb directly mutates styling through DOM references on mousemove, preventing constant React state re-renders.
 
 ---
 
