@@ -6,6 +6,9 @@ import {
   BookOpen,
   FileCode,
   Briefcase,
+  Settings,
+  Smartphone,
+  Heart,
   LucideIcon
 } from "lucide-react";
 
@@ -144,6 +147,51 @@ export const projectsData: Project[] = [
     version: "v0.5.1",
     memory: "14.7 MB",
     load: "30%",
+    color: "#f72585"
+  },
+  {
+    id: "windows-optimizer",
+    title: "Windows-Optimizer",
+    description: "A modular Windows 10/11 optimization, setup, and privacy utility written in PowerShell. Automates bloatware removal, telemetry disabling, performance tweaks, and software installations via Winget.",
+    category: "OS Utility & Scripting",
+    tech: ["PowerShell", "Registry Tweaks", "Winget", "JSON Config"],
+    github: "https://github.com/NishantJLU/Windows-Optimizer",
+    icon: Settings,
+    glowClass: "group-hover:border-neon-cyan/40 group-hover:shadow-[0_0_25px_rgba(0,240,255,0.15)]",
+    moduleCode: "MOD_OS_OPT",
+    version: "v2.1.0",
+    memory: "7.2 MB",
+    load: "5%",
+    color: "#00b4d8"
+  },
+  {
+    id: "facebook-clone",
+    title: "facebook-clone",
+    description: "A full-scale native-looking Facebook mobile application UI clone engineered in Python using Flet. Features fully functioning stories with progress bars, reaction panels, a video Watch list, and Material 3 design.",
+    category: "Mobile UI & Python",
+    tech: ["Python", "Flet", "Flutter API", "JSON Database"],
+    github: "https://github.com/NishantJLU/facebook-clone",
+    icon: Smartphone,
+    glowClass: "group-hover:border-neon-purple/40 group-hover:shadow-[0_0_25px_rgba(189,0,255,0.15)]",
+    moduleCode: "MOD_MOB_CLON",
+    version: "v1.0.0",
+    memory: "21.6 MB",
+    load: "18%",
+    color: "#7209b7"
+  },
+  {
+    id: "heart-ml-optimizer",
+    title: "Heart ML Optimizer",
+    description: "An ML diagnostics framework comparing baseline model predictions with bio-inspired feature-selection meta-heuristics (GA, HHO, SMA, AO) and a custom Dynamic Hybrid Weighted Feature Selection Optimizer on UCI datasets.",
+    category: "Machine Learning & Optimization",
+    tech: ["Python", "Scikit-Learn", "Bio-inspired Opt", "SHAP"],
+    github: "https://github.com/NishantJLU/heart",
+    icon: Heart,
+    glowClass: "group-hover:border-neon-pink/40 group-hover:shadow-[0_0_25px_rgba(247,37,133,0.15)]",
+    moduleCode: "MOD_ML_FS",
+    version: "v1.4.0",
+    memory: "45.8 MB",
+    load: "62%",
     color: "#f72585"
   },
 ];
